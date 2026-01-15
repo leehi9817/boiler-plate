@@ -1,6 +1,15 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const app = express();
-const port = 5000;
+const port = process.env.SERVER_PORT;
+
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env.DB_DRIVER)
+  .then(() => console.log("MongoDB Connected..."))
+  .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
