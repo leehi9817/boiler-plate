@@ -7,17 +7,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const user = new User(req.body);
-  const result = await user
-    .save()
-    .then(() => {
-      res.status(200).json({
-        success: true,
-      });
-    })
-    .catch((err) => {
-      res.json({ success: false, err });
-    });
+  try {
+    const user = new User(req.body);
+    await user.save();
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(400).json({ success: false, err });
+  }
 });
 
 module.exports = router;
