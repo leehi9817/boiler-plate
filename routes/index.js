@@ -21,6 +21,12 @@ router.post("/register", async (req, res) => {
     return sendSuccess(res, { message: "회원가입이 완료되었습니다." });
   } catch (err) {
     console.error("회원가입 오류:", err);
+
+    // DB 중복 키 예외처리
+    if (err.code === 11000) {
+      return sendError(res, ERROR_CODES.VALIDATION.DUPLICATE_EMAIL);
+    }
+
     return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
   }
 });
