@@ -8,9 +8,6 @@ const port = process.env.SERVER_PORT;
 // application/x-www-form-urlencoded
 const bodyParser = require("body-parser");
 
-// application/json
-const { User } = require("./models/User");
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -20,23 +17,10 @@ mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/", require("./routes"));
 
-app.post("/register", async (req, res) => {
-  const user = new User(req.body);
-  const result = await user
-    .save()
-    .then(() => {
-      res.status(200).json({
-        success: true,
-      });
-    })
-    .catch((err) => {
-      res.json({ success: false, err });
-    });
-});
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("PORT:", port);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
