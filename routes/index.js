@@ -74,4 +74,17 @@ router.get("/api/users/auth", auth, (req, res) => {
   });
 });
 
+// 로그아웃
+router.get("/api/users/logout", auth, async (req, res) => {
+  try {
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $unset: { token: 1 } }
+    );
+    return sendSuccess(res, { message: "로그아웃 되었습니다." });
+  } catch (error) {
+    return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
+  }
+});
+
 module.exports = router;
