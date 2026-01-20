@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
 });
 
 // 회원 등록
-router.post("/register", async (req, res) => {
+router.post("/api/users/register", async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
@@ -32,7 +32,7 @@ router.post("/register", async (req, res) => {
 });
 
 // 로그인
-router.post("/login", async (req, res) => {
+router.post("/api/users/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
