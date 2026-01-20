@@ -48,7 +48,9 @@ userSchema.methods.comparePassword = function (plainPassword) {
 // 토큰 생성
 userSchema.methods.generateToken = function () {
   const user = this;
-  const token = jwt.sign(user._id.toHexString(), "secretToken");
+  const token = jwt.sign(user._id.toHexString(), process.env.JWT_SECRET, {
+    algorithm: "HS256",
+  });
   user.token = token;
   return user.save();
 };
