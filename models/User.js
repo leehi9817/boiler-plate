@@ -55,6 +55,20 @@ userSchema.methods.generateToken = function () {
   return user.save();
 };
 
+// 토큰으로 사용자 조회
+userSchema.statics.findByToken = async function (token) {
+  const user = this;
+
+  const decoded = await new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) reject(err);
+      else resolve(decoded);
+    });
+  });
+
+  return await user.findOne({ _id: decoded, token: token });
+};
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = { User };

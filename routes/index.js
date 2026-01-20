@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const { User } = require("../models/User");
+const { auth } = require("../middleware/Auth");
 
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
@@ -58,6 +59,19 @@ router.post("/api/users/login", async (req, res) => {
     console.error("로그인 오류:", err);
     return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
   }
+});
+
+// 인증 관리
+router.get("/api/users/auth", auth, (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.rold === 0 ? false : true,
+    isAuth: true,
+    email: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.iamge,
+  });
 });
 
 module.exports = router;
