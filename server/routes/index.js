@@ -13,6 +13,10 @@ router.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+router.get("/api/hello", (req, res) => {
+  res.send("hello api 호출 성공");
+});
+
 // 회원 등록
 router.post("/api/users/register", async (req, res) => {
   try {
