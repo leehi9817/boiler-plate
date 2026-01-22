@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd server && npm run dev",
     "client": "cd client && npm run start"
   },
@@ -16,5 +17,8 @@
     "url": "https://github.com/leehi9817/boiler-plate/issues"
   },
   "homepage": "https://github.com/leehi9817/boiler-plate#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
