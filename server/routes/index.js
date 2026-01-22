@@ -13,12 +13,12 @@ router.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-router.get("/api/hello", (req, res) => {
+router.get("/hello", (req, res) => {
   res.send("hello api 호출 성공");
 });
 
 // 회원 등록
-router.post("/api/users/register", async (req, res) => {
+router.post("/users/register", async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
@@ -37,7 +37,7 @@ router.post("/api/users/register", async (req, res) => {
 });
 
 // 로그인
-router.post("/api/users/login", async (req, res) => {
+router.post("/users/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
@@ -66,7 +66,7 @@ router.post("/api/users/login", async (req, res) => {
 });
 
 // 인증 관리
-router.get("/api/users/auth", auth, (req, res) => {
+router.get("/users/auth", auth, (req, res) => {
   res.status(200).json({
     _id: req.user._id,
     isAdmin: req.user.rold === 0 ? false : true,
@@ -79,7 +79,7 @@ router.get("/api/users/auth", auth, (req, res) => {
 });
 
 // 로그아웃
-router.get("/api/users/logout", auth, async (req, res) => {
+router.get("/users/logout", auth, async (req, res) => {
   try {
     await User.findOneAndUpdate(
       { _id: req.user._id },
