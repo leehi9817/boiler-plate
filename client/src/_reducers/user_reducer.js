@@ -1,8 +1,8 @@
-import { LOGIN_USER } from "../_actions/types";
+import { LOGIN_USER, REGISTER_USER } from "../_actions/types";
 
 const initialState = {
   auth: false,
-  userId: null,
+  data: null,
   error: null,
 };
 
@@ -13,7 +13,7 @@ export default function userReducer(state = initialState, action) {
         return {
           ...state,
           auth: true,
-          userId: action.payload.data.userId,
+          data: action.payload.data.userId,
           error: null,
         };
       }
@@ -23,6 +23,21 @@ export default function userReducer(state = initialState, action) {
         error: action.payload.error,
         userId: null,
       };
+
+    case REGISTER_USER:
+      if (action.payload.success) {
+        return {
+          ...state,
+          register: true,
+          data: action.payload.data,
+        };
+      }
+
+      return {
+        register: false,
+        error: action.payload.error,
+      };
+
     default:
       return state;
   }
