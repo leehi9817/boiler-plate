@@ -1,4 +1,13 @@
 const ERROR_CODES = Object.freeze({
+  // 공통
+  COMMON: {
+    DEFAULT: {
+      code: "INTERNAL_SERVER_ERROR",
+      message: "서버 오류가 발생했습니다.",
+      status: 500,
+    },
+  },
+
   // 인증 관련
   AUTH: {
     USER_NOT_FOUND: {
@@ -15,15 +24,6 @@ const ERROR_CODES = Object.freeze({
       code: "UNAUTHORIZED",
       message: "인증이 필요합니다.",
       status: 401,
-    },
-  },
-
-  // 서버 에러
-  SERVER: {
-    INTERNAL_ERROR: {
-      code: "INTERNAL_SERVER_ERROR",
-      message: "서버 오류가 발생했습니다.",
-      status: 500,
     },
   },
 
