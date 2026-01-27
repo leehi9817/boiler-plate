@@ -1,41 +1,24 @@
 import { LOGIN_USER, REGISTER_USER } from "../_actions/types";
 
 const initialState = {
-  auth: false,
-  data: null,
-  error: null,
+  isAuthenticated: false,
+  user: null,
+  isRegistered: false,
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN_USER:
-      if (action.payload.success) {
-        return {
-          ...state,
-          auth: true,
-          data: action.payload.data.userId,
-          error: null,
-        };
-      }
-
       return {
-        auth: false,
-        error: action.payload.error,
-        userId: null,
+        ...state,
+        isAuthenticated: action.payload.success,
+        user: action.payload.data ?? null,
       };
 
     case REGISTER_USER:
-      if (action.payload.success) {
-        return {
-          ...state,
-          register: true,
-          data: action.payload.data,
-        };
-      }
-
       return {
-        register: false,
-        error: action.payload.error,
+        ...state,
+        isRegistered: action.payload.success,
       };
 
     default:
