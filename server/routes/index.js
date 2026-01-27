@@ -9,14 +9,6 @@ router.use(cookieParser());
 const { sendError, sendSuccess } = require("../utils/responseHandler");
 const ERROR_CODES = require("../constants/error");
 
-router.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-router.get("/hello", (req, res) => {
-  res.send("hello api 호출 성공");
-});
-
 // 회원 등록
 router.post("/users/register", async (req, res) => {
   try {
@@ -68,13 +60,15 @@ router.post("/users/login", async (req, res) => {
 // 인증 관리
 router.get("/users/auth", auth, (req, res) => {
   res.status(200).json({
-    _id: req.user._id,
     isAdmin: req.user.rold === 0 ? false : true,
     isAuth: true,
-    email: req.user.name,
-    lastname: req.user.lastname,
-    role: req.user.role,
-    image: req.user.iamge,
+    data: {
+      _id: req.user._id,
+      email: req.user.name,
+      lastname: req.user.lastname,
+      role: req.user.role,
+      image: req.user.iamge,
+    },
   });
 });
 
@@ -86,7 +80,8 @@ router.get("/users/logout", auth, async (req, res) => {
       { $unset: { token: 1 } },
     );
     return sendSuccess(res, { message: "로그아웃 되었습니다." });
-  } catch (error) {
+  } catch (err) {
+    console.error("로그아웃 오류:", err);
     return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
   }
 });
