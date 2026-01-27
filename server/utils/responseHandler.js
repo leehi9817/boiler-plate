@@ -17,7 +17,7 @@ const sendError = (res, error = {}) => {
   const status = error.status || ERROR_CODES.COMMON.DEFAULT.status;
 
   const errorInfo = findErrorByStatus(status);
-  console.log(errorInfo);
+  console.error(errorInfo);
 
   return res.status(errorInfo.status).json({
     success: false,

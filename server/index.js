@@ -17,7 +17,7 @@ const mongoose = require("mongoose");
 mongoose
   .connect(process.env.DB_DRIVER)
   .then(() => console.log("MongoDB Connected..."))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 // 라우팅 설정
 app.use("/", require("./routes"));
