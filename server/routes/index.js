@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 const { User } = require("../models/User");
-const { auth } = require("../middleware/Auth");
+const { auth } = require("../middleware/auth");
 
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
