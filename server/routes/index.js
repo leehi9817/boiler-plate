@@ -79,7 +79,10 @@ router.get("/users/logout", auth, async (req, res) => {
       { _id: req.user._id },
       { $unset: { token: 1 } },
     );
-    return sendSuccess(res, { message: "로그아웃 되었습니다." });
+    return res.clearCookie("x_auth").status(200).json({
+      success: true,
+      message: "로그아웃 되었습니다.",
+    });
   } catch (err) {
     console.error("로그아웃 오류:", err);
     return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
