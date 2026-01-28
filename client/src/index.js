@@ -5,26 +5,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import "antd/dist/antd.css";
-import { applyMiddleware, createStore } from "redux";
-import promiseMiddleware from "redux-promise";
-import { thunk } from "redux-thunk";
-import Reducer from "./_reducers";
-
-const createStoreWithMiddleware = applyMiddleware(
-  promiseMiddleware,
-  thunk,
-)(createStore);
+import store from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider
-      store={createStoreWithMiddleware(
-        Reducer,
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-          window.__REDUX_DEVTOOLS_EXTENSION__(),
-      )}
-    >
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>,

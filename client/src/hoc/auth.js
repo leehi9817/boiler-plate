@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { authUser } from "../_actions/user_action";
+import { authUser } from "../store/actions/userAction";
 import { useNavigate } from "react-router-dom";
 
 export default function Auth(SpecificComponent, option, adminRoute = null) {

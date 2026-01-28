@@ -1,9 +1,9 @@
-import { LOGIN_USER, REGISTER_USER, AUTH_USER } from "../_actions/types";
+import { LOGIN_USER, REGISTER_USER, AUTH_USER } from "../types";
 
 const initialState = {
   isAuth: false,
   isAdmin: false,
-  user: null,
+  profile: null,
 };
 
 export default function userReducer(state = initialState, action) {
@@ -12,7 +12,7 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         loginSuccess: action.payload.success,
-        user: action.payload.data ?? null,
+        profile: action.payload.data ?? null,
       };
 
     case REGISTER_USER:
@@ -26,7 +26,7 @@ export default function userReducer(state = initialState, action) {
         ...state,
         isAuth: action.payload?.isAuth ?? false,
         isAdmin: action.payload?.isAdmin ?? false,
-        user: action.payload.data ?? null,
+        profile: action.payload.data ?? null,
       };
 
     default:

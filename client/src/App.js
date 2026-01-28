@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import LandingPage from "./components/views/LandingPage/LandingPage";
-import LoginPage from "./components/views/LoginPage/LoginPage";
-import RegisterPage from "./components/views/RegisterPage/RegisterPage";
+import Landing from "./pages/Landing/Landing";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 import Auth from "./hoc/auth";
 
 function App() {
@@ -11,9 +11,9 @@ function App() {
     <BrowserRouter>
       <div>
         <Routes>
-          <Route exact path="/" element={Auth(LandingPage, null)} />
-          <Route exact path="/login" element={Auth(LoginPage, false)} />
-          <Route exact path="register" element={Auth(RegisterPage, false)} />
+          <Route exact path="/" element={Auth(Landing, null)} />
+          <Route exact path="/login" element={Auth(Login, false)} />
+          <Route exact path="register" element={Auth(Register, false)} />
         </Routes>
       </div>
     </BrowserRouter>
