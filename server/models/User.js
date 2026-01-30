@@ -23,6 +23,8 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: Number,
+    default: 0,
+    enum: [0, 1], // 0: 일반 사용자, 1: 관리자
   },
   image: String,
   token: {
@@ -48,9 +50,7 @@ userSchema.methods.comparePassword = function (plainPassword) {
 // 토큰 생성
 userSchema.methods.generateToken = function () {
   const user = this;
-  const token = jwt.sign(user._id.toHexString(), process.env.JWT_SECRET, {
-    algorithm: "HS256",
-  });
+  const token = jwt.sign(user._id.toHexString(), process.env.JWT_SECRET);
   user.token = token;
   return user.save();
 };
