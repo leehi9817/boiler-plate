@@ -50,7 +50,7 @@ router.post("/users/login", async (req, res) => {
     return res
       .cookie("x_auth", tokenUser.token)
       .status(200)
-      .json({ success: true, data: { userId: tokenUser._id } });
+      .json({ success: true, data: { _Id: tokenUser._id } });
   } catch (err) {
     console.error("로그인 오류:", err);
     return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
@@ -60,14 +60,14 @@ router.post("/users/login", async (req, res) => {
 // 인증 관리
 router.get("/users/auth", auth, (req, res) => {
   res.status(200).json({
-    isAdmin: req.user.rold === 0 ? false : true,
+    isAdmin: req.user.role === 1,
     isAuth: true,
     data: {
       _id: req.user._id,
-      email: req.user.name,
+      name: req.user.name,
+      email: req.user.email,
       lastname: req.user.lastname,
-      role: req.user.role,
-      image: req.user.iamge,
+      image: req.user.image,
     },
   });
 });
