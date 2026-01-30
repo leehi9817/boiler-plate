@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../store/actions/userAction";
 
 function LandingPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuth = useSelector((state) => state.user.isAuth);
 
@@ -11,8 +12,8 @@ function LandingPage() {
   const onClickRegister = () => navigate("/register");
 
   const onClickLogout = () => {
-    axios.get("/api/users/logout").then((response) => {
-      if (response.data.success) {
+    dispatch(logoutUser()).then((response) => {
+      if (response.payload.success) {
         navigate("/login");
       } else {
         alert("로그아웃에 실패하였습니다.");
