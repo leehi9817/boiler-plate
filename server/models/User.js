@@ -1,74 +1,79 @@
-const mongoose = require("mongoose");
+const db = require("../config/db");
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
 const jwt = require("jsonwebtoken");
+const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
 
-const userSchema = mongoose.Schema({
-  name: {
-    type: String,
-    maxLength: 50,
-  },
-  email: {
-    type: String,
-    trim: true,
-    unique: 1,
-  },
-  password: {
-    type: String,
-    minlength: 5,
-  },
-  lastname: {
-    type: String,
-    maxLength: 50,
-  },
-  role: {
-    type: Number,
-    default: 0,
-    enum: [0, 1], // 0: 일반 사용자, 1: 관리자
-  },
-  image: String,
-  token: {
-    type: String,
-  },
-  tokenExp: {
-    type: Number,
-  },
-});
+// 사용자 생성
+const createUser = async (user) => {
+  console.log("Creating user:", user);
+  const hashedPassword = await bcrypt.hash(user.password, saltRounds);
 
-// 비밀번호 암호화
-userSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
+  const query = `
+    INSERT INTO users (name, email, password, lastname, role, image)
+    VALUES ($1, $2, $3, $4, 0, NULL)
+    RETURNING _id
+  `;
 
-  this.password = await bcrypt.hash(this.password, saltRounds);
-});
+  const values = [user.name, user.email, hashedPassword, user.lastname];
 
-// 비밀번호 비교
-userSchema.methods.comparePassword = function (plainPassword) {
-  return bcrypt.compare(plainPassword, this.password);
+  const { rows } = await db.query(query, values);
+  return rows[0];
+};
+
+// 이메일로 사용자 조회
+const findByEmail = async (email) => {
+  const query = `
+    SELECT *
+    FROM users
+    WHERE email = $1
+  `;
+  const { rows } = await db.query(query, [email]);
+  return rows[0];
 };
 
 // 토큰 생성
-userSchema.methods.generateToken = function () {
-  const user = this;
-  const token = jwt.sign(user._id.toHexString(), process.env.JWT_SECRET);
-  user.token = token;
-  return user.save();
+const generateToken = async (userId) => {
+  const token = jwt.sign(userId.toString(), process.env.JWT_SECRET);
+
+  const query = `
+    UPDATE users
+    SET token = $1
+    WHERE _id = $2
+    RETURNING _id, token
+  `;
+
+  const { rows } = await db.query(query, [token, userId]);
+  return rows[0];
 };
 
 // 토큰으로 사용자 조회
-userSchema.statics.findByToken = async function (token) {
-  const user = this;
+const findByToken = async (token) => {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  const decoded = await new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) reject(err);
-      else resolve(decoded);
-    });
-  });
+  const query = `
+    SELECT *
+    FROM users
+    WHERE _id = $1 AND token = $2
+  `;
 
-  return await user.findOne({ _id: decoded, token: token });
+  const { rows } = await db.query(query, [decoded, token]);
+  return rows[0];
 };
 
-const User = mongoose.model("User", userSchema);
+// 토큰 삭제
+const clearToken = async (userId) => {
+  const query = `
+    UPDATE users
+    SET token = NULL
+    WHERE _id = $1
+  `;
+  await db.query(query, [userId]);
+};
 
-module.exports = { User };
+module.exports = {
+  createUser,
+  findByEmail,
+  generateToken,
+  findByToken,
+  clearToken,
+};

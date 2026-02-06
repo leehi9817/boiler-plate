@@ -1,4 +1,4 @@
-const { User } = require("../models/User");
+const { findByToken } = require("../models/User");
 
 const auth = async (req, res, next) => {
   try {
@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
       });
     }
 
-    const user = await User.findByToken(token);
+    const user = await findByToken(token);
 
     // 인증 실패
     if (!user) {
@@ -30,6 +30,8 @@ const auth = async (req, res, next) => {
     next();
   } catch (err) {
     console.error("인증 오류:", err);
+
+    res.clearCookie("x_auth");
     return res.status(500).json({
       isAuth: false,
       error: {

@@ -13,11 +13,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // DB 연결
-const mongoose = require("mongoose");
-mongoose
-  .connect(process.env.DB_DRIVER)
-  .then(() => console.log("MongoDB Connected..."))
-  .catch((err) => console.error(err));
+const db = require("./config/db");
+
+(async () => {
+  try {
+    await db.query("SELECT 1");
+    console.log("PostgreSQL connected");
+  } catch (err) {
+    console.error("PostgreSQL connection failed", err);
+    process.exit(1);
+  }
+})();
 
 // 라우팅 설정
 app.use("/", require("./routes"));
