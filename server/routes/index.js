@@ -24,7 +24,7 @@ router.post("/users/register", async (req, res) => {
       return sendError(res, ERROR_CODES.VALIDATION.DUPLICATE_EMAIL);
     }
 
-    return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
+    return sendError(res, ERROR_CODES.COMMON.DEFAULT);
   }
 });
 
@@ -53,7 +53,7 @@ router.post("/users/login", async (req, res) => {
       .json({ success: true, data: { _Id: tokenUser._id } });
   } catch (err) {
     console.error("로그인 오류:", err);
-    return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
+    return sendError(res, ERROR_CODES.COMMON.DEFAULT);
   }
 });
 
@@ -85,7 +85,7 @@ router.get("/users/logout", auth, async (req, res) => {
     });
   } catch (err) {
     console.error("로그아웃 오류:", err);
-    return sendError(res, ERROR_CODES.SERVER.INTERNAL_ERROR);
+    return sendError(res, ERROR_CODES.COMMON.DEFAULT);
   }
 });
 
