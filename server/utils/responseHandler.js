@@ -17,13 +17,18 @@ const sendError = (res, error = {}) => {
   const status = error.status || ERROR_CODES.COMMON.DEFAULT.status;
 
   const errorInfo = findErrorByStatus(status);
-  console.error(errorInfo);
+  const resolvedError = {
+    code: error.code || errorInfo.code,
+    message: error.message || errorInfo.message,
+    status: error.status || errorInfo.status,
+  };
+  console.error(resolvedError);
 
   return res.status(errorInfo.status).json({
     success: false,
     error: {
-      code: error.code || errorInfo.code,
-      message: error.message || errorInfo.message,
+      code: resolvedError.code,
+      message: resolvedError.message,
     },
   });
 };
