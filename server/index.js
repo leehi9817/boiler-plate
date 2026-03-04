@@ -1,38 +1,34 @@
-// dotenv 설정
 const dotenv = require("dotenv");
 dotenv.config();
 
-// express 서버 생성
+const dbType = (process.env.DB_TYPE || "mongodb").toLowerCase();
+dotenv.config({ path: `.env.${dbType}` });
+
 const express = require("express");
+const bodyParser = require("body-parser");
+const { initializeDatabase } = require("./config/database");
+
 const app = express();
 const port = process.env.SERVER_PORT;
 
-// Request Parsing 설정
-const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// DB 연결
-const db = require("./config/db");
-
 (async () => {
   try {
-    await db.query("SELECT 1");
-    console.log("PostgreSQL connected");
+    const activeDb = await initializeDatabase();
+    console.log(`Database connected: ${activeDb}`);
   } catch (err) {
-    console.error("PostgreSQL connection failed", err);
+    console.error("Database connection failed", err);
     process.exit(1);
   }
 })();
 
-// 라우팅 설정
 app.use("/", require("./routes"));
 
-// 서버 환경 설정값 출력
 console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("PORT:", port);
 
-// 서버 시작
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
