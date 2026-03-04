@@ -1,7 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 // 사용자 생성
 const createUser = async (user) => {
