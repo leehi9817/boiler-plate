@@ -4,7 +4,11 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js"
+    "start:mongodb": "cross-env NODE_ENV=production DB_TYPE=mongodb nodemon index.js",
+    "start:postgresql": "cross-env NODE_ENV=production DB_TYPE=postgresql nodemon index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "dev:mongodb": "cross-env NODE_ENV=development DB_TYPE=mongodb nodemon index.js",
+    "dev:postgresql": "cross-env NODE_ENV=development DB_TYPE=postgresql nodemon index.js"
   },
   "author": "",
   "license": "ISC",

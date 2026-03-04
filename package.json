@@ -4,7 +4,13 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start:mongodb": "concurrently \"npm run server:mongodb\" \"npm run client\"",
+    "start:postgresql": "concurrently \"npm run server:postgresql\" \"npm run client\"",
+
     "server": "cd server && npm run dev",
+    "server:mongodb": "cd server && npm run dev:mongodb",
+    "server:postgresql": "cd server && npm run dev:postgresql",
+    
     "client": "cd client && npm run start"
   },
   "repository": {
