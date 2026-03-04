@@ -1,0 +1,152 @@
+.welcome-layout {
+  min-height: 100vh;
+  padding: 32px 20px;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+.welcome-shell {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.welcome-header,
+.welcome-section,
+.dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+}
+
+.welcome-header {
+  padding: 26px;
+}
+
+.welcome-badge {
+  margin: 0;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.welcome-header h1 {
+  margin: 8px 0;
+  color: #0f172a;
+  font-size: 2rem;
+}
+
+.welcome-subtitle {
+  margin: 0;
+  color: #64748b;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.dashboard-card {
+  padding: 20px;
+}
+
+.dashboard-title {
+  margin: 0;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.dashboard-value {
+  margin: 8px 0 4px;
+  font-size: 2rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.dashboard-description {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.welcome-section {
+  padding: 22px;
+}
+
+.welcome-section h2 {
+  margin: 0 0 14px;
+  color: #1e293b;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.welcome-alert {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 0.88rem;
+}
+
+.activity-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #334155;
+  display: grid;
+  gap: 8px;
+}
+
+.btn {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0 16px;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .welcome-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .quick-actions {
+    flex-direction: column;
+  }
+}
