@@ -1,4 +1,4 @@
-const { findByToken } = require("../models/User");
+const { findByToken } = require("../repositories/user");
 
 const auth = async (req, res, next) => {
   try {
@@ -30,8 +30,6 @@ const auth = async (req, res, next) => {
     next();
   } catch (err) {
     console.error("인증 오류:", err);
-
-    res.clearCookie("x_auth");
     return res.status(500).json({
       isAuth: false,
       error: {
